@@ -23,3 +23,10 @@ The trade-off: sub-second remainders are appended verbatim after the whole-secon
 - Fractional seconds are truncated, not rounded, so `59.9` renders as `59s.9s`, not `1m`.
 
 Exported names: `humanize_duration`, `format_duration` (alias).
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
